@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calstro Hospice EOB</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        .small-print {
+            text-align: center;
+            font-size: 12px;
+            color: #777;
+            margin-bottom: 20px;
+        }
+        .form-section {
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+            color: #555;
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"], input[type="email"], input[type="date"], select, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            color: #333;
+        }
+        textarea {
+            resize: none;
+            height: 100px;
+        }
+        .form-row {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .form-row .form-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        input[type="text"]:focus, input[type="email"]:focus, input[type="date"]:focus, select:focus, textarea:focus {
+            border-color: #66afe9;
+            outline: none;
+            box-shadow: 0 0 8px rgba(102, 175, 233, 0.6);
+        }
+        button {
+            background-color: #5cb85c;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            display: block;
+            width: 100%;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #4cae4c;
+        }
+        #output {
+            font-family: Arial, sans-serif;
+            background-color: #e9ecef;
+            padding: 20px;
+            margin-top: 30px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+        #copyButton {
+            display: none;
+            margin-top: 10px;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+        #copyButton:hover {
+            background-color: #0056b3;
+        }
+        .dme-options, .polst-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        .dme-options label, .polst-options label {
+            display: flex;
+            align-items: center;
+            font-weight: normal;
+            color: #333;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Calstro Hospice EOB</h2>
+        <p class="small-print">Created by Alex Eisenberg - 8.18.2024</p>
+        <form id="hospiceForm">
+            <div class="form-section">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Patient:</label>
+                        <input type="text" name="Patient">
+                    </div>
+                    <div class="form-group">
+                        <label>Gender:</label>
+                        <select name="Gender">
+                            <option value="" disabled selected>Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Race:</label>
+                        <select name="Race">
+                            <option value="" disabled selected>Select Race</option>
+                            <option value="White">White</option>
+                            <option value="Black or African American">Black or African American</option>
+                            <option value="Asian">Asian</option>
+                            <option value="Native American">Native American</option>
+                            <option value="Hispanic or Latino">Hispanic or Latino</option>
+                            <option value="Pacific Islander">Pacific Islander</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>DOB:</label>
+                        <input type="text" name="DOB" placeholder="MM/DD/YYYY">
+                    </div>
+                    <div class="form-group">
+                        <label>SS#:</label>
+                        <input type="text" name="SS">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>MCARE#:</label>
+                        <input type="text" name="MCARE">
+                    </div>
+                    <div class="form-group">
+                        <label>MCAL#:</label>
+                        <input type="text" name="MCAL">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <label class="section-title">DPOA if applicable</label>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Name:</label>
+                        <input type="text" name="DPOA Name">
+                    </div>
+                    <div class="form-group">
+                        <label>Address:</label>
+                        <input type="text" name="DPOA Address">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone:</label>
+                        <input type="text" name="DPOA Phone">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <label class="section-title">Primary Contact</label>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Name:</label>
+                        <input type="text" name="Primary Contact Name">
+                    </div>
+                    <div class="form-group">
+                        <label>Address:</label>
+                        <input type="text" name="Primary Contact Address">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone:</label>
+                        <input type="text" name="Primary Contact Phone">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <label class="section-title">Secondary Contact</label>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Name:</label>
+                        <input type="text" name="Secondary Contact Name">
+                    </div>
+                    <div class="form-group">
+                        <label>Address:</label>
+                        <input type="text" name="Secondary Contact Address">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone:</label>
+                        <input type="text" name="Secondary Contact Phone">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <label class="section-title">Current Location</label>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Facility:</label>
+                        <input type="text" name="Current Location Facility">
+                    </div>
+                    <div class="form-group">
+                        <label>Address:</label>
+                        <input type="text" name="Current Location Address">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone:</label>
+                        <input type="text" name="Current Location Phone">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Expected DC Time:</label>
+                        <input type="text" name="Expected DC Time">
+                    </div>
+                    <div class="form-group">
+                        <label>Expected DC Date:</label>
+                        <input type="date" name="Expected DC Date">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <label class="section-title">Admission Location</label>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Facility:</label>
+                        <input type="text" name="Admission Location Facility">
+                    </div>
+                    <div class="form-group">
+                        <label>Address:</label>
+                        <input type="text" name="Admission Location Address">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone:</label>
+                        <input type="text" name="Admission Location Phone">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <label>Hospice Order:</label>
+                <select name="Hospice Order">
+                    <option value="" disabled selected>Select Option</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+
+                <label>H&P/Med List:</label>
+                <select name="H&P/Med List">
+                    <option value="" disabled selected>Select Option</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+
+                <label>Referring MD:</label>
+                <input type="text" name="Referring MD">
+
+                <label>Referring SW or CM:</label>
+                <input type="text" name="Referring SW or CM">
+
+                <label>Bedside RN:</label>
+                <input type="text" name="Bedside RN">
+            </div>
+
+            <div class="form-section">
+                <label class="section-title">Hospice MD</label>
+                <select name="Hospice MD" id="hospice_md" onchange="toggleOtherHospiceMD()">
+                    <option value="" disabled selected>Select Option</option>
+                    <option value="Dr. McNaughton">Dr. McNaughton</option>
+                    <option value="Dr. Sanghvi">Dr. Sanghvi</option>
+                    <option value="Other">Other</option>
+                </select>
+
+                <div id="other_hospice_md" class="hidden">
+                    <label>Other Hospice MD:</label>
+                    <input type="text" name="Other Hospice MD">
+                </div>
+            </div>
+
+            <div class="form-section">
+                <label>PCP:</label>
+                <input type="text" name="PCP">
+
+                <label>Allergies:</label>
+                <input type="text" name="Allergies">
+            </div>
+
+            <div class="form-section">
+                <label class="section-title">DME</label>
+                <div class="dme-options">
+                    <label><input type="checkbox" name="DME" value="Hospital Bed"> Hospital Bed</label>
+                    <label><input type="checkbox" name="DME" value="O2 Concentrator"> O2 Concentrator</label>
+                    <label><input type="checkbox" name="DME" value="Suction"> Suction</label>
+                    <label><input type="checkbox" name="DME" value="Nebulizer"> Nebulizer</label>
+                    <label><input type="checkbox" name="DME" value="LAL Mattress"> LAL Mattress</label>
+                    <label><input type="checkbox" name="DME" value="Fall Mat"> Fall Mat</label>
+                    <label><input type="checkbox" name="DME" value="OBT"> OBT</label>
+                    <label><input type="checkbox" name="DME" value="Rollator"> Rollator</label>
+                    <label><input type="checkbox" name="DME" value="Walker"> Walker</label>
+                    <label><input type="checkbox" name="DME" value="Wheelchair"> Wheelchair</label>
+                    <label><input type="checkbox" name="DME" value="Shower Chair"> Shower Chair</label>
+                    <label><input type="checkbox" name="DME" value="Bedside Commode"> Bedside Commode</label>
+                    <label><input type="checkbox" name="DME" value="Airvo"> Airvo</label>
+                    <label><input type="checkbox" name="DME" value="Hoyer Lift"> Hoyer Lift</label>
+                    <label><input type="checkbox" name="DME" value="Other" id="otherDME"> Other</label>
+                </div>
+                <div id="otherDMEInput" class="hidden">
+                    <label>Other DME:</label>
+                    <input type="text" name="Other DME">
+                </div>
+            </div>
+
+            <div class="form-section">
+                <label>Transport:</label>
+                <input type="text" name="Transport">
+
+                <label>EOB:</label>
+                <input type="text" name="EOB">
+
+                <label>Consents:</label>
+                <input type="text" name="Consents">
+            </div>
+
+            <div class="form-section">
+                <label class="section-title">Code Status [POLST]</label>
+                
+                <div class="form-row">
+                    <label><strong>Part A</strong>:</label>
+                    <div class="polst-options">
+                        <label><input type="radio" name="POLST1" value="DNR"> DNR</label>
+                        <label><input type="radio" name="POLST1" value="CPR"> CPR</label>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <label><strong>Part B</strong>:</label>
+                    <div class="polst-options">
+                        <label><input type="radio" name="POLST2" value="Full Treatment"> Full Treatment</label>
+                        <label><input type="radio" name="POLST2" value="Selective Treatment"> Selective Treatment</label>
+                        <label><input type="radio" name="POLST2" value="Comfort Focused Treatment"> Comfort Focused Treatment</label>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <label><strong>Part C</strong>:</label>
+                    <div class="polst-options">
+                        <label><input type="radio" name="POLST3" value="Long Term Feeding"> Long Term Feeding</label>
+                        <label><input type="radio" name="POLST3" value="Trial Tube Feeding"> Trial Tube Feeding</label>
+                        <label><input type="radio" name="POLST3" value="No Tube Feeding"> No Tube Feeding</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <label>Hospice Covered Items:</label>
+                <select name="Hospice Covered Items">
+                    <option value="" disabled selected>Select Option</option>
+                    <option value="Elect">Elect</option>
+                    <option value="Decline">Decline</option>
+                </select>
+
+                <label>COVID-19 Vaccination Status:</label>
+                <select name="COVID-19 Vaccination Status">
+                    <option value="" disabled selected>Select Option</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                    <option value="N/A">N/A</option>
+                </select>
+
+                <label>Binder:</label>
+                <input type="text" name="Binder">
+            </div>
+
+            <div class="form-section">
+                <label class="section-title">Mortuary</label>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Name:</label>
+                        <input type="text" name="Mortuary Name">
+                    </div>
+                    <div class="form-group">
+                        <label>Address:</label>
+                        <input type="text" name="Mortuary Address">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone:</label>
+                        <input type="text" name="Mortuary Phone">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <label>Religious Preference:</label>
+                <input type="text" name="Religious Preference">
+
+                <label>V/A Affiliated:</label>
+                <select name="V/A Affiliated">
+                    <option value="" disabled selected>Select Option</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+
+                <label>Auth Required for Placement:</label>
+                <select name="Auth Required for Placement">
+                    <option value="" disabled selected>Select Option</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+
+                <label>Known Family or Community (Covid-19) Exposure:</label>
+                <select name="Known Family or Community Exposure">
+                    <option value="" disabled selected>Select Option</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+
+                <label>Staircase:</label>
+                <select name="Staircase">
+                    <option value="" disabled selected>Select Option</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+
+                <label>Hospital Room#:</label>
+                <input type="text" name="Hospital Room#">
+
+                <label>Obtain Advance Directive:</label>
+                <select name="Obtain Advance Directive">
+                    <option value="" disabled selected>Select Option</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+
+                <label>Email:</label>
+                <input type="email" name="Email">
+            </div>
+
+            <div class="form-section">
+                <label>SN RED FLAGS:</label>
+                <textarea name="SN Red Flags" maxlength="500"></textarea>
+
+                <label>SW RED FLAGS:</label>
+                <textarea name="SW Red Flags" maxlength="500"></textarea>
+            </div>
+
+            <button type="submit">Submit</button>
+            <button type="button" id="copyButton">Copy Text</button>
+        </form>
+
+        <h2>Submitted Information:</h2>
+        <pre id="output"></pre>
+    </div>
+
+    <script>
+        document.getElementById('otherDME').addEventListener('change', function () {
+            const otherDMEInput = document.getElementById('otherDMEInput');
+            otherDMEInput.classList.toggle('hidden', !this.checked);
+        });
+
+        function toggleOtherHospiceMD() {
+            const hospiceMD = document.getElementById('hospice_md');
+            const otherHospiceMD = document.getElementById('other_hospice_md');
+            if (hospiceMD.value === 'Other') {
+                otherHospiceMD.classList.remove('hidden');
+            } else {
+                otherHospiceMD.classList.add('hidden');
+                document.getElementsByName('Other Hospice MD')[0].value = '';
+            }
+        }
+
+        document.getElementById('hospiceForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            let output = '';
+            const sectionOrder = [
+                'Patient', 'Gender', 'Race', 'DOB', 'SS', 'MCARE', 'MCAL',
+                'DPOA', 'Primary Contact', 'Secondary Contact', 'Current Location', 
+                'Expected DC Time', 'Expected DC Date', 'Admission Location', 
+                'Hospice Order', 'H&P/Med List', 'Referring MD', 'Referring SW or CM', 
+                'Bedside RN', 'Hospice MD', 'PCP', 'Allergies', 'DME', 'Transport', 
+                'EOB', 'Consents', 'Code Status [POLST]', 'Hospice Covered Items', 
+                'COVID-19 Vaccination Status', 'Binder', 'Mortuary', 'Religious Preference', 
+                'V/A Affiliated', 'Auth Required for Placement', 'Known Family or Community Exposure', 
+                'Staircase', 'Hospital Room#', 'Obtain Advance Directive', 'Email', 
+                'SN Red Flags', 'SW Red Flags'
+            ];
+
+            sectionOrder.forEach(section => {
+                let sectionLines = [];
+                formData.forEach((value, key) => {
+                    if (key.includes(section)) {
+                        if (!value && !['DPOA Name', 'DPOA Address', 'DPOA Phone', 'Primary Contact Name', 'Primary Contact Address', 'Primary Contact Phone', 'Secondary Contact Name', 'Secondary Contact Address', 'Secondary Contact Phone', 'Current Location Facility', 'Current Location Address', 'Current Location Phone', 'Mortuary Name', 'Mortuary Address', 'Mortuary Phone', 'Other Hospice MD', 'SN Red Flags', 'SW Red Flags'].includes(key)) {
+                            value = 'n/a';
+                        }
+                        if (value && !(key.includes('Other Hospice MD') && formData.get('Hospice MD') !== 'Other')) {
+                            if (['DME', 'Admission Location', 'DPOA', 'Primary Contact', 'Secondary Contact', 'Current Location', 'Mortuary', 'Code Status [POLST]', 'SN Red Flags', 'SW Red Flags'].includes(section)) {
+                                sectionLines.push(`- ${value}`);
+                            } else if (!['DME'].includes(section) && ['Admission Location', 'DPOA', 'Primary Contact', 'Secondary Contact', 'Current Location', 'Mortuary'].includes(section)) {
+                                sectionLines.push(`- ${value}`);
+                            } else {
+                                sectionLines.push(`${key}: ${value}`);
+                            }
+                        }
+                    }
+                });
+                if (section === 'Code Status [POLST]') {
+                    const polst1 = formData.get('POLST1') || 'n/a';
+                    const polst2 = formData.get('POLST2') || 'n/a';
+                    const polst3 = formData.get('POLST3') || 'n/a';
+                    sectionLines.push(`- ${polst1}`);
+                    sectionLines.push(`- ${polst2}`);
+                    sectionLines.push(`- ${polst3}`);
+                }
+                if (sectionLines.length > 0) {
+                    if (['SN Red Flags', 'SW Red Flags'].includes(section)) {
+                        output += `\n${section}:\n${sectionLines.join('\n')}\n`;
+                    } else if (['DME', 'Admission Location', 'DPOA', 'Primary Contact', 'Secondary Contact', 'Current Location', 'Mortuary', 'Code Status [POLST]'].includes(section)) {
+                        output += `${section}:\n${sectionLines.join('\n')}\n`;
+                    } else {
+                        output += `${sectionLines.join('\n')}\n`;
+                    }
+                }
+            });
+
+            document.getElementById('output').innerHTML = output.trim();
+
+            // Show the copy button after the form is submitted
+            document.getElementById('copyButton').style.display = 'block';
+        });
+
+        document.getElementById('copyButton').addEventListener('click', function () {
+            const outputText = document.getElementById('output').textContent;
+            navigator.clipboard.writeText(outputText).then(() => {
+                alert('Text copied to clipboard!');
+            });
+        });
+    </script>
+</body>
+</html>
